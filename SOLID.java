@@ -1,9 +1,9 @@
 import java.util.LinkedList;
 class Cricketer
 { 
-    public int matches;
-    public int jerseyNumber;
-    public String name;
+    private int matches;
+    private int jerseyNumber;
+    private String name;
     
     public String displayName()
     {
@@ -18,6 +18,13 @@ class Cricketer
     {
         return jerseyNumber;
     }
+     public Cricketer(String name,int jerseyNumber, int matches)
+   { 
+	   
+       this.jerseyNumber=jerseyNumber;
+       this.name=name;
+       this.matches=matches;
+   }
 }
 interface IplPlayer
 {
@@ -41,19 +48,16 @@ class Batsmen extends Cricketer implements GetCenturiesAndWickets ,IplPlayer, Ch
    private int noOfCenturies;
    private boolean isKeeper;
    private int iplMatches;
+  
    public Batsmen(String name,int jerseyNumber, int matches,int noOfCenturies,  int iplMatches)
-   {
-       this.jerseyNumber=jerseyNumber;
-       this.name=name;
-       this.matches=matches;
+   { 
+	   super( name, jerseyNumber,  matches);
        this.noOfCenturies=noOfCenturies;
        this.iplMatches=iplMatches;
    }
    public Batsmen(String name,int jerseyNumber, int matches,int noOfCenturies, int iplMatches,boolean isKeeper)
    {
-       this.jerseyNumber=jerseyNumber;
-       this.name=name;
-       this.matches=matches;
+	   super( name, jerseyNumber,  matches);
        this.noOfCenturies=noOfCenturies;
        this.iplMatches=iplMatches;
        this.isKeeper=isKeeper;
@@ -77,28 +81,25 @@ class Batsmen extends Cricketer implements GetCenturiesAndWickets ,IplPlayer, Ch
 }
 class Allrounder extends Batsmen
 {
+	 
 	 private int noOfCenturies;
 	 private int iplMatches;
 	
 	   public Allrounder(String name,int jerseyNumber, int matches,int noOfCenturies,  int iplMatches)
 	   {
 		   super( name, jerseyNumber,  matches, noOfCenturies,  iplMatches);
-	       this.jerseyNumber=jerseyNumber;
-	       this.name=name;
-	       this.matches=matches;
 	       this.noOfCenturies=noOfCenturies;
 	       this.iplMatches=iplMatches;
 	   }
 }
 class Bowler extends Cricketer implements GetCenturiesAndWickets,IplPlayer
 {
+  
    private int noOfWickets;
    private int iplMatches;
    public Bowler(String name,int jerseyNumber, int matches,int getNoOfWickets,int iplMatches)
    {
-       this.jerseyNumber=jerseyNumber;
-       this.name=name;
-       this.matches=matches;
+	   super( name, jerseyNumber,  matches);
        this.noOfWickets=getNoOfWickets;
        this.iplMatches=iplMatches;
    }
@@ -128,64 +129,61 @@ interface Country
 
 class India implements Country
 {
-     LinkedList<Batsmen> BatsMen;
-      LinkedList<Bowler> BowLer;
-     public India(LinkedList<Batsmen> BatsMen, LinkedList<Bowler> BowLer)
+     LinkedList<Cricketer> Team;
+     public India(LinkedList<Cricketer> Team)
      {
-         this.BatsMen=BatsMen;
-         this.BowLer=BowLer;
+         this.Team=Team;
      }
      
      public void displayPlayers()
      {
          System.out.println("The batsmens are:\n");
          System.out.println("Name "+"JerseyNo "+"Matches "+"Centuries "+" Ipl Matches "+" Keeper");
-         for(int i=0;i<BatsMen.size();i++)
+         for(int i=0;i<6;i++)
          {
-            System.out.println(BatsMen.get(i).displayName()+"  "+BatsMen.get(i).displayJersey()+
-            		"     "+BatsMen.get(i).displayMatches()+"      "+BatsMen.get(i).getNoOfCenturies()+
-            		"            "+BatsMen.get(i).displayIplMatches()+"      "+BatsMen.get(i).keeper());
+            System.out.println(Team.get(i).displayName()+"  "+Team.get(i).displayJersey()+
+            		"     "+Team.get(i).displayMatches()+"      "+((Batsmen)Team.get(i)).getNoOfCenturies()+
+            		"            "+((Batsmen)Team.get(i)).displayIplMatches()+"      "+((Batsmen)Team.get(i)).keeper());
          }
          
          System.out.println();
          
          System.out.println("The bowlers are:\n");
          System.out.println("Name "+"JerseyNo "+"Matches "+"Wickets "+" Ipl Matches ");
-         for(int i=0;i<BowLer.size();i++)
+         for(int i=6;i<Team.size();i++)
          {
-            System.out.println(BowLer.get(i).displayName()+"  "+BowLer.get(i).displayJersey()+
-            		"     "+BowLer.get(i).displayMatches()+"      "+BowLer.get(i).getNoOfWickets()+
-            		"            "+BowLer.get(i).displayIplMatches());
+            System.out.println(Team.get(i).displayName()+"  "+Team.get(i).displayJersey()+
+            		"     "+Team.get(i).displayMatches()+"      "+((Bowler)Team.get(i)).getNoOfWickets()+
+            		"            "+((Bowler)Team.get(i)).displayIplMatches());
          }
      }
-     
 }
 
 public class SOLID
 {
     public static void main(String[] args)
     {
-    LinkedList<Batsmen> BatsMen=new LinkedList<Batsmen>();
+    LinkedList<Cricketer> Team=new LinkedList<Cricketer>();
     
   //restricting 6 batsmens
-    BatsMen.add(new Batsmen("Rohit",12,250,60,8));
-    BatsMen.add(new Batsmen("Dhawan",11,250,60,9));
-    BatsMen.add(new Batsmen("Virat",18,250,70,7));
-    BatsMen.add(new Batsmen("Rahul",12,250,40,8));
-    BatsMen.add(new Batsmen("Dhoni",12,330,55,9,true));
-    BatsMen.add(new Allrounder("Hardik",12,123,34,9));
+    Team.add(new Batsmen("Rohit",12,250,60,8));
+    Team.add(new Batsmen("Dhawan",11,250,60,9));
+    Team.add(new Batsmen("Virat",18,250,70,7));
+    Team.add(new Batsmen("Rahul",12,250,40,8));
+    Team.add(new Batsmen("Dhoni",12,330,55,9,true));
+    Team.add(new Allrounder("Hardik",12,123,34,9));
     
-    LinkedList<Bowler> BowLer=new LinkedList<Bowler>();
+  
    
     //restricting 5 bowlers
-    BowLer.add(new Bowler("Chahal",23,345,123,7));
-    BowLer.add(new Bowler("Kuldeep",24,348,456,8));
-    BowLer.add(new Bowler("Umesh",23,345,123,9));
-    BowLer.add(new Bowler("Bhuvi",24,348,378,7));
-    BowLer.add(new Bowler("Bumrah",23,345,421,8));
+    Team.add(new Bowler("Chahal",23,345,123,7));
+    Team.add(new Bowler("Kuldeep",24,348,456,8));
+    Team.add(new Bowler("Umesh",23,345,123,9));
+    Team.add(new Bowler("Bhuvi",24,348,378,7));
+    Team.add(new Bowler("Bumrah",23,345,421,8));
    
            
-            Country country=new India(BatsMen,BowLer);
+            Country country=new India(Team);
             country.displayPlayers();
            
     }
